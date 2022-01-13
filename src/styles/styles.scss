@@ -1,0 +1,11 @@
+$white: #ffffff;
+$black: #202020;
+$gray: #393939;
+$red: #e62429;
+$light-gray: #999;
+
+@import './common.scss';
+@import './cards.scss';
+@import './character.scss';
+@import './slider.scss';
+@import './filter.scss';

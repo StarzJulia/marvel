@@ -1,0 +1,26 @@
+{
+    "code": 200,
+    "data": {
+        "limit": 9,
+        "offset": 0,
+        "total": 3,
+        "count": 3,
+        "results": [
+            {
+                "name": "Wanda Maximoff",
+                "description": "Notably powerful, Wanda Maximoff has fought both against and with the Avengers, attempting to hone her abilities and do what she believes is right to help the world.",
+                "image": "./images/Wanda-Maximoff.jpeg"
+            },
+            {
+                "name": "Black Widow",
+                "description": "Natasha Romanoff, separated from the now-fractured Avengers, confronts the dark path she took to becoming a spy and assassin, as well as events that followed.",
+                "image": "./images/Black-Widow.jpeg"
+            },
+            {
+                "name": "Loki",
+                "description": "God of Mischief and brother to Thor, Loki’s tricks and schemes wreak havoc across the realms.",
+                "image": "./images/Loki.jpeg"
+            }
+        ]
+    }
+}

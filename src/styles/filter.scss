@@ -1,0 +1,109 @@
+.filter {
+  font: 400 13px/1 Helvetica,Arial,sans-serif; // Roboto Bold,Trebuchet MS,
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: $light-gray;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 20px 0;
+  gap: 10px;
+
+  &_search {
+    display: flex;
+    flex-direction: row;
+
+    @media screen and (max-width: 750px) {
+      flex: 100%;
+    }
+
+    &-content {
+      position: relative;
+      display: flex;
+      flex: auto;
+
+      &_input {
+        font: inherit;
+        width: 100%;
+        border: 0;
+        padding: 5px;
+        outline: none;
+      }
+
+      &_button {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto 5px;
+        z-index: 2;
+      }
+    }
+  }
+
+  &_sort {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &-select {
+      padding: 5px;
+      background-color: $white;
+      margin-left: 10px;
+      text-transform: none;
+
+      &_item {
+        position: relative;
+        cursor: pointer;
+        padding-right: 20px;
+
+        &:after,
+        &:before {
+          content: '';
+          position: absolute;
+          bottom: 3px;
+          right: 0;
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent;
+        }
+
+        &.asc:after {
+          border-bottom: 5px solid $light-gray;
+        }
+
+        &.desc:after {
+          border-top: 5px solid $light-gray;
+        }
+
+        &:hover {
+          color: $gray;
+        }
+      }
+    }
+  }
+
+  &_pagination {
+    flex: auto;
+
+    @media screen and (max-width: 500px) {
+      flex: 100%;
+      text-align: center;
+    }
+
+    &-page {
+      padding: 5px;
+      display: inline-block;
+      cursor: pointer;
+
+      &:hover {
+        color: $gray;
+      }
+
+      &.current {
+        color: $red;
+      }
+    }
+  }
+}

@@ -1,0 +1,68 @@
+.character-appearance {
+  &_header {
+    margin: 20px 0;
+  }
+
+  &-item {
+    text-align: center;
+    padding: 0 10px;
+
+    &_header {
+      text-shadow: 1px 1px $black;
+      text-transform: uppercase; 
+      line-height: initial;
+
+      &-content {    
+        position: relative;
+        line-height: 0;
+
+        &_back {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          /* vertical-align: middle; */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(0,0,0,.5);
+        }
+      }
+    }
+  }
+
+  .react-multi-carousel {
+    margin: 0 -10px;
+
+    &-list {
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    &-track {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      position: relative;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      will-change: transform, transition;
+    }
+    &-item {
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+    }
+
+
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      &-item {
+        flex-shrink: 0 !important;
+      }
+      &-track {
+        overflow: visible !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font: 400 16px/1.3 "Roboto", "Trebuchet MS", Helvetica, Arial, sans-serif;
+  background-color: $black;
+  color: $white;
+}
+
+a {
+  color: $white;
+  text-decoration: none;
+
+  &:hover {
+    color: $red;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+h1 {
+  text-transform: uppercase;
+}
+
+h2 {
+  text-transform: uppercase;
+}
+
+#container {
+  margin: 20px;
+}
+
+.buttons-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.button {
+  cursor: pointer;
+
+  &-main {
+    font: 800 14px/1 Helvetica,Arial,sans-serif; // Roboto Bold,Trebuchet MS,
+    text-transform: uppercase;
+    background-color: $red;
+    color: $white;
+    padding: 10px 35px;
+    border: 0;
+  }
+
+  &-clear {
+    background-color: transparent;
+    border: 1px solid $light-gray;
+    border-radius: 100%;
+    color: $light-gray;
+    width: 20px;
+    height: 20px;
+
+    &:hover {
+      border-color: $red;
+      color: $red;
+    }
+  }
+
+  &.loading {
+    animation: 1.5s in-out infinite;
+  }
+}
+
+@keyframes in-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#header {
+  text-align: center;
+  line-height: 0;
+  border-bottom: 1px solid $gray;
+}
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $gray;
+}
