@@ -20,7 +20,9 @@ export default function Home() {
         
         if (hash) {
             for (let p in hash) {
-                url += `&${p}=${hash[p]}`
+                if (hash[p] !== '') {
+                    url += `&${p}=${hash[p]}`
+                }
             } 
         }
 
@@ -45,8 +47,7 @@ export default function Home() {
             });
     }
 
-    const filterCharacters = (params: {}) => {
-        //console.log(params);
+    const filterCharacters = (params: {[key: string]: string | number}) => {
         setHash({...hash, ...params});
     }
 
