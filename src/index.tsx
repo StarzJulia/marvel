@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-    BrowserRouter as Router,
     Routes,
-    Route
+    Route,
+    HashRouter
 } from "react-router-dom";
 import Header from './components/Header';
 import Home from './components/Home';
@@ -11,7 +11,7 @@ import Character from './components/Character';
 import './styles/styles.scss';
 
 ReactDOM.render(
-    <Router basename="/marvel">
+    <HashRouter>
         <Header />
         <div id="container">
             <Routes>
@@ -19,6 +19,6 @@ ReactDOM.render(
                 <Route path="/:characterId" element={<Character />} />
             </Routes>
         </div>
-    </Router>,
+    </HashRouter>,
     document.getElementById('root')
 );
