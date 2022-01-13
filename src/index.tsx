@@ -11,7 +11,7 @@ import Character from './components/Character';
 import './styles/styles.scss';
 
 ReactDOM.render(
-    <Router>
+    <Router basename="/marvel">
         <Header />
         <div id="container">
             <Routes>
