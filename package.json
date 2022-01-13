@@ -8,7 +8,7 @@
     "start": "webpack --watch",
     "build": "webpack --mode production",
     "test": "jest",
-    "tsc": "tsc"
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/StarzJulia/marvel/issues"
   },
-  "homepage": "https://github.com/StarzJulia/marvel#readme",
+  "homepage": "https://starzjulia.github.io/marvel/",
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -42,6 +42,7 @@
     "babel-jest": "^27.4.6",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
+    "gh-pages": "^3.2.3",
     "jest": "^27.4.7",
     "sass": "^1.47.0",
     "sass-loader": "^12.4.0",
