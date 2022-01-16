@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen, act} from '@testing-library/react';
-import { MemoryRouter } from "react-router-dom"
+import {CaracterCardInterface} from '../interfaces/interfaces';
 import Home from '../components/Home';
 
 import fakeCharacters from './characters.json';
@@ -11,11 +11,18 @@ global.fetch = jest.fn(() =>
     })
 ) as jest.Mock;
 
-describe('Home page', () => {
+jest.mock("../components/filter/Filter", () => () => (
+    <div>Filter</div>
+));
 
-    it("should render list of characters", async () => {
+jest.mock("../components/CharacterCard", () => (character: CaracterCardInterface) => (
+    <div role="character">{character.name}</div>
+));
+
+describe('Home page', () => {
+    it("number of characters should be 3", async () => {
         // @ts-ignore`
-        await act(async () => render(<MemoryRouter><Home /></MemoryRouter>));
-        expect(screen.getAllByRole('link').length).toBe(3);
+        await act(async () => render(<Home />));
+        expect(screen.getAllByRole('character').length).toBe(3);
     });
 });

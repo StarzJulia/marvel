@@ -1,5 +1,5 @@
 export function getImagePath(
-    thumbnail: {path: string, extension: string}, 
+    thumbnail: {path: string, extension: string} | null, 
     type: string = ''
 ) {
     if (!thumbnail) {

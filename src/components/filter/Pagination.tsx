@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {getPagesCount, getCurrentPage} from '../../scripts/pagination';
 
 interface PaginationInterface {
     total: number;
@@ -13,18 +14,10 @@ export default function Pagination({total, count, offset, limit, paginate}: Pagi
     let [current, setCurrent] = useState(0);
     let [last, setLast] = useState(0);
 
-    const getPagesCount = () => {
-        return Math.ceil(total / limit);
-    }
-
-    const getCurrentPage = () => {
-        return Math.ceil((offset + count) / limit);
-    }
-
     const createPagination = () => {
         let newPages = [];
-        const curr = getCurrentPage();
-        const lst = getPagesCount();
+        const curr = getCurrentPage(offset, count, limit);
+        const lst = getPagesCount(total, limit);
 
         if (total > 0) {
             let start = Math.max(2, curr - 2);
