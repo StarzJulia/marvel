@@ -1,15 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {getPagesCount, getCurrentPage} from '../../scripts/pagination';
+import {FilterContext} from '../../context/filterContext';
 
-interface PaginationInterface {
-    total: number;
-    count: number;
-    offset: number;
-    limit: number;
-    paginate: (params: {}) => void
-}
-
-export default function Pagination({total, count, offset, limit, paginate}: PaginationInterface) {
+export default function Pagination() {
+    let {total, count, offset, limit, change} = useContext(FilterContext);
     let [pages, setPages] = useState<number[]>([]);
     let [current, setCurrent] = useState(0);
     let [last, setLast] = useState(0);
@@ -39,7 +33,7 @@ export default function Pagination({total, count, offset, limit, paginate}: Pagi
     }
 
     const sendPaginationRequest = (page: number) => {
-        paginate({
+        change({
             offset: (page - 1) * limit
         });
     }

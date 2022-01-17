@@ -1,16 +1,14 @@
-import React, {useRef} from 'react';
+import React, {useRef, useContext} from 'react';
+import {FilterContext} from '../../context/filterContext';
 
-interface SearchInterface {
-    lookFor: (params: {}) => void
-}
-
-export default function Search({lookFor}: SearchInterface) {
+export default function Search() {
+    let {change} = useContext(FilterContext);
 	const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;;
 
     const btnClick = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
         
-        lookFor({
+        change({
             'nameStartsWith': inputRef.current.value || '',
             'offset': 0
         });
@@ -19,7 +17,7 @@ export default function Search({lookFor}: SearchInterface) {
     const clearInput = () => {
         inputRef.current.value = '';
 
-        lookFor({
+        change({
             'nameStartsWith': '',
             'offset': 0
         });

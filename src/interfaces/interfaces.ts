@@ -14,6 +14,10 @@ export interface CharacterAppearance {
     resourceURI: string;
 }
 
-export interface CharacterAppearanceList {
-    
+export interface FilterContentInterface {
+    total: number;
+    limit: number;
+    count: number;
+    offset: number;
+    change: (params: {}) => void
 }

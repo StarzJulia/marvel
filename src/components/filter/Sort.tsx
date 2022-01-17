@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import {FilterContext} from '../../context/filterContext';
 
-interface SortInterface {
-    orderBy: (params: {}) => void
-}
-
-export default function Sort({orderBy}: SortInterface) {
+export default function Sort() {
+    let {change} = useContext(FilterContext);
 	const options = ['Name', 'Modified'];
     const [chosen, setChosenOption] = useState<string[][]>([]);
     const values = ['', '', '-'];
@@ -26,7 +24,7 @@ export default function Sort({orderBy}: SortInterface) {
 
         setChosenOption(newChosen);
 
-        orderBy({
+        change({
             'orderBy': newChosen.reduce((res, el) => {
                 res.push(values[parseInt(el[1])] + el[0]);
                 return res;

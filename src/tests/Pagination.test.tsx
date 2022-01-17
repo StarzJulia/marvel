@@ -3,6 +3,7 @@ import { mount, configure } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import Pagination from '../components/filter/Pagination';
 import {getPagesCount, getCurrentPage} from '../scripts/pagination';
+import {FilterContext} from '../context/filterContext';
 
 configure({ adapter: new Adapter() });
 
@@ -11,14 +12,19 @@ const initialProps = {
     limit: 20,
     count: 20,
     offset: 40,
-    paginate: jest.fn()
+    change: jest.fn()
 }
 
 describe('Pagination', () => {
-    const component = mount(<Pagination {...initialProps} />);
+    const Component = () => (
+        <FilterContext.Provider value={initialProps}>
+            <Pagination />
+        </FilterContext.Provider>
+    );
+    const element = mount(<Component />);
 
     it('should match the snapshot', () => {
-        expect(component.html()).toMatchSnapshot();
+        expect(element.html()).toMatchSnapshot();
     });
 
     it("number of pages should be 5", async () => {
@@ -30,11 +36,11 @@ describe('Pagination', () => {
     });
 
     it('should render an pagination item', () => {
-        expect(component.find('.filter_pagination-page').exists()).toBe(true);
+        expect(element.find('.filter_pagination-page').exists()).toBe(true);
     });
 
     it('on click, sendPaginationRequest function should be triggered on click event', () => {
-        component.find('.filter_pagination-page').first().simulate('click');
-        expect(initialProps.paginate).toHaveBeenCalled();
-      });
+        element.find('.filter_pagination-page').first().simulate('click');
+        expect(initialProps.change).toHaveBeenCalled();
+    });
 });

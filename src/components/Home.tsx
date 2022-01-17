@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Filter from './filter/Filter';
 import CharacterCard from './CharacterCard';
 import {hashLink} from '../api.config';
+import {FilterContext} from '../context/filterContext';
 
 export default function Home() {
     const LIMIT_NUMBER = 15;
@@ -58,13 +59,15 @@ export default function Home() {
 
     return (
         <>
-            <Filter 
-                change={filterCharacters} 
-                total={totalCounter} 
-                count={countCounter} 
-                offset={offsetCounter}
-                limit={limitCounter}
-            />
+            <FilterContext.Provider value={{
+                total: totalCounter,
+                count: countCounter,
+                offset: offsetCounter,
+                limit: limitCounter,
+                change: filterCharacters
+            }}>
+                <Filter />
+            </FilterContext.Provider>
             <div className="character-cards">
                 {characters && characters.map((character, index) => 
                     <CharacterCard 
