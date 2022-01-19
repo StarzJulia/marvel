@@ -1,7 +1,7 @@
 # Marvel characters
 
 ### Author: Iuliia Starzhinskaia
-Try demo on [GitHub Pages](http://54.195.52.154:8080/)
+Try [demo](http://54.195.52.154:8080/)
 
 #### Installation & building
 - `git clone https://github.com/StarzJulia/marvel.git`
