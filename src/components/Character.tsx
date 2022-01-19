@@ -3,42 +3,45 @@ import {useParams} from "react-router-dom";
 import {CaracterCardInterface} from '../interfaces/interfaces';
 import SliderContainer from './slider/SliderContainer';
 import {getImagePath} from '../scripts/common';
-import {hashLink} from '../api.config';
+import {createSearchPath, createUrl} from '../scripts/common';
 
 export default function Character() {
     const {characterId} = useParams();
     let [character, setCharacter] = useState<CaracterCardInterface>();
-    let [comics, setComics] = useState([]);
-    let [events, setEvents] = useState([]);
-    let [series, setSeries] = useState([]);
-    let [stories, setStories] = useState([]);
+    let [appearances, setAppearances] = useState({
+        comics: [],
+        events: [],
+        series: [],
+        stories: []
+    });
     let [error, setError] = useState('');
 
-    const fetchCharacter = () => {
-        fetch(`https://gateway.marvel.com/v1/public/characters/${characterId}?${hashLink}`)
-            .then((res) => res.json())
-            .then((res) => {
-                if (res.code == 200) {
-                    const {
-                        comics: {items: comicsItems}, 
-                        events: {items: eventsItems}, 
-                        series: {items: seriesItems}, 
-                        stories: {items: storiesItems}, 
-                        ...data
-                    } = res.data.results[0];
+    const fetchCharacter = async () => {
+        const search = createSearchPath();
+        const url = createUrl(characterId);
 
-                    setCharacter(data);
-                    setComics(comicsItems);
-                    setEvents(eventsItems);
-                    setSeries(seriesItems);
-                    setStories(storiesItems);
-                } else {
-                    setError(res.status || res.message);
-                }
-            })
-            .catch((err) => {
-                setError(err);
+        const response = await fetch(`${url}${search}`);
+        const json = await response.json();
+        
+        if (json.code != 200) {
+            setError(json.status || json.message);
+        } else {
+            const {
+                comics: {items: comicsItems}, 
+                events: {items: eventsItems}, 
+                series: {items: seriesItems}, 
+                stories: {items: storiesItems}, 
+                ...data
+            } = json.data.results[0];
+
+            setCharacter(data);
+            setAppearances({
+                comics: comicsItems,
+                events: eventsItems,
+                series: seriesItems,
+                stories: storiesItems
             });
+        }
     }
 
     useEffect(() => {
@@ -67,17 +70,17 @@ export default function Character() {
                             </div>
                         }
                     </div>
-                    {comics.length > 0 &&
-                        <SliderContainer header="Comics" items={comics} />
+                    {appearances.comics.length > 0 &&
+                        <SliderContainer header="Comics" items={appearances.comics} />
                     }
-                    {events.length > 0 &&
-                        <SliderContainer header="Events" items={events} />
+                    {appearances.events.length > 0 &&
+                        <SliderContainer header="Events" items={appearances.events} />
                     }
-                    {stories.length > 0 &&
-                        <SliderContainer header="Stories" items={stories} />
+                    {appearances.stories.length > 0 &&
+                        <SliderContainer header="Stories" items={appearances.stories} />
                     }
-                    {series.length > 0 &&
-                        <SliderContainer header="Series" items={series} />
+                    {appearances.series.length > 0 &&
+                        <SliderContainer header="Series" items={appearances.series} />
                     }
                 </>
             }

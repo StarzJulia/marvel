@@ -1,40 +1,37 @@
 import React, {useState, useEffect} from 'react';
 import {CharacterAppearance} from '../../interfaces/interfaces';
 import {getImagePath} from '../../scripts/common';
-import {hashLink} from '../../api.config';
+import {createSearchPath} from '../../scripts/common';
 
 export default function SliderItem(item: CharacterAppearance) {
     let [image, setImage] = useState('');
     let [error, setError] = useState('');
     let {name, resourceURI} = item;
 
-    const fetchCharacter = () => {
-        //console.info('FETCH');
-        fetch(`${resourceURI}?${hashLink}`)
-            .then((res) => res.json())
-            .then((res) => {
-                let thumbnail;
+    const fetchCharacter = async (url: string) => {
+        let thumbnail;
+        const search = createSearchPath();
 
-                if (res.code == 200) {
-                    thumbnail = res.data.results[0].thumbnail;
-                } else {
-                    setError(res.status);        
-                }
+        const response = await fetch(`${url}${search}`);
+        const json = await response.json();
+        
+        if (json.code != 200) {
+            setError(json.message || json.status);
+        } else {
+            thumbnail = json.data.results[0].thumbnail;
+        }
 
-                let imageThumb = getImagePath(thumbnail, 'standard_fantastic');
-                setImage(imageThumb);
-                localStorage.setItem(resourceURI, imageThumb);
-            })
-            .catch((err) => {
-                setError(err);
-            });
+        let imageThumb = getImagePath(thumbnail, 'standard_fantastic');
+        setImage(imageThumb);
+        localStorage.setItem(url, imageThumb);
     }
 
     useEffect(() => {
-        if (localStorage.getItem(resourceURI)) {
-            setImage(localStorage.getItem(resourceURI));
+        const url = resourceURI.replace(/http[s]?:\/\/gateway.marvel.com/, '');
+        if (localStorage.getItem(url)) {
+            setImage(localStorage.getItem(url));
         } else {
-            fetchCharacter();
+            fetchCharacter(url);
         }
     }, []);
 

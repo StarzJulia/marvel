@@ -28,8 +28,7 @@ export default function Sort() {
             'orderBy': newChosen.reduce((res, el) => {
                 res.push(values[parseInt(el[1])] + el[0]);
                 return res;
-            }, []).join(','),
-            'offset': 0
+            }, []).join(',')
         });
     }
 

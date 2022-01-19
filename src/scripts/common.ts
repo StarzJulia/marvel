@@ -1,12 +1,47 @@
+import {config} from '../api.config';
+import {ThumbnailInterface} from '../interfaces/interfaces';
+
+export function createUrl(param?: string): string {
+    let {origin, url} = config;
+    let requestUrl = origin + url;
+
+    if (param) {
+        requestUrl += `/${param}`;
+    }
+    
+    return requestUrl;
+}
+
+export function createSearchPath(additionalParams?: {}) {
+    const {getParams} = config;
+    let hashLine = destructureParamsIntoSearch(getParams);
+
+    if (additionalParams) {
+        hashLine += destructureParamsIntoSearch(additionalParams, 1);
+    }
+
+    return hashLine;
+}
+
+function destructureParamsIntoSearch(obj: {[key: string]: string | number}, i: number = 0) {
+    let result = '';
+
+    for (let key in obj) {
+        if (obj[key] !== '') {
+            result += `${(i == 0 ? '?' : '&')}${key}=${obj[key]}`;
+            i += 1;
+        }
+    } 
+
+    return result;
+}
+
 export function getImagePath(
-    thumbnail: {path: string, extension: string} | null, 
+    thumbnail: ThumbnailInterface | null, 
     type: string = ''
 ) {
     if (!thumbnail) {
-        thumbnail = {
-            path: 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available',
-            extension: 'jpg'
-        }
+        thumbnail = config.defaultThumbnail;
     }
     
     let {path, extension} = thumbnail;

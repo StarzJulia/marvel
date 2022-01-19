@@ -3,10 +3,19 @@ export interface CaracterCardInterface {
     name: string;
     realName?: string;
     description: string;
-    thumbnail: {
-        path: string;
-        extension: string;
-    }
+    thumbnail: ThumbnailInterface | null
+}
+
+export interface ThumbnailInterface {
+    path: string;
+    extension: string;
+}
+
+export interface ConfigInterface {
+    origin: string;
+    url: string;
+    getParams: {[key: string]: string | number},
+    defaultThumbnail: ThumbnailInterface
 }
 
 export interface CharacterAppearance {

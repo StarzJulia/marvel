@@ -1,51 +1,38 @@
 import React, {useEffect, useState} from 'react';
 import Filter from './filter/Filter';
 import CharacterCard from './CharacterCard';
-import {hashLink} from '../api.config';
 import {FilterContext} from '../context/filterContext';
+import {createSearchPath, createUrl} from '../scripts/common';
 
 export default function Home() {
+    const url = createUrl();
     const LIMIT_NUMBER = 15;
     let [characters, setCharacters] = useState([]);
     let [hash, setHash] = useState<{[key: string]: string | number}>({limit: LIMIT_NUMBER});
     let [loading, setLoader] = useState(true);
     let [error, setError] = useState('');
-    let [offsetCounter, setOffset] = useState(0);
-    let [totalCounter, setTotal] = useState(0);
-    let [countCounter, setCount] = useState(0);
-    let [limitCounter, setLimit] = useState(LIMIT_NUMBER);
+    let [filterSettings, setFilterSettings] = useState({
+        total: 0,
+        limit: 0,
+        count: 0,
+        offset: 0
+    });
 
-    const fetchCharacters = () => {
-        let url = `https://gateway.marvel.com/v1/public/characters`;
-        url += `?${hashLink}`;
+    const fetchCharacters = async () => {
+        const search = createSearchPath(hash);
+
+        const response = await fetch(`${url}${search}`);
+        const json = await response.json();
         
-        if (hash) {
-            for (let p in hash) {
-                if (hash[p] !== '') {
-                    url += `&${p}=${hash[p]}`
-                }
-            } 
+        if (json.code != 200) {
+            setError(json.message || json.status);
+        } else {
+            let {results, count, total, offset, limit} = json.data; 
+            setFilterSettings({total, count, limit, offset});
+            setCharacters(results);
         }
 
-        fetch(url)
-            .then(res => {
-                return res.json();
-            })
-            .then(res => {
-                if (res.code == 200) {
-                    let {results, count, total, offset, limit} = res.data; 
-                    setTotal(total);
-                    setCount(count);
-                    setOffset(offset);
-                    setLimit(limit);
-                    setCharacters(results);
-                } else {
-                    setError(res.message);
-                }
-            })
-            .then(() => {
-                setLoader(false);
-            });
+        setLoader(false);
     }
 
     const filterCharacters = (params: {[key: string]: string | number}) => {
@@ -60,14 +47,14 @@ export default function Home() {
     return (
         <>
             <FilterContext.Provider value={{
-                total: totalCounter,
-                count: countCounter,
-                offset: offsetCounter,
-                limit: limitCounter,
-                change: filterCharacters
+                change: filterCharacters,
+                ...filterSettings
             }}>
                 <Filter />
             </FilterContext.Provider>
+            {error &&
+                <div className="error">{error}</div>
+            }
             <div className="character-cards">
                 {characters && characters.map((character, index) => 
                     <CharacterCard 
@@ -76,9 +63,6 @@ export default function Home() {
                     />
                 )} 
             </div>
-            {error &&
-                <div className="error">{error}</div>
-            }
             {loading &&
                 <div className="loader">Loading...</div>
             }

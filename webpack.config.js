@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: "./src/index.tsx",
+  entry: ["babel-polyfill", "./src/index.tsx"],
   module: {
     rules: [
       {
@@ -22,11 +22,8 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          // Creates `style` nodes from JS strings
           "style-loader",
-          // Translates CSS into CommonJS
           "css-loader",
-          // Compiles Sass to CSS
           "sass-loader",
         ],
       },
@@ -46,11 +43,24 @@ module.exports = {
     filename: "build.js",
   },
   devServer: {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    },
     static: {
       directory: path.join(__dirname, ''),
     },
     compress: true,
+    hot: true,
     port: 9000,
     historyApiFallback: true,
+    proxy: {
+      '/v1/**': { 
+        target: 'http://gateway.marvel.com',
+        changeOrigin: true,
+        secure: false
+      },
+    }   
   },
-};
+}
