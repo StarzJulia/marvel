@@ -29,6 +29,7 @@ export default function SliderItem(item: CharacterAppearance) {
     useEffect(() => {
         const url = resourceURI.replace(/http[s]?:\/\/gateway.marvel.com/, '');
         if (localStorage.getItem(url)) {
+            // @ts-ignore
             setImage(localStorage.getItem(url));
         } else {
             fetchCharacter(url);
